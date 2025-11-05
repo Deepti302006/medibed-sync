@@ -61,15 +61,15 @@ export const DashboardView = () => {
           <div className="space-y-3">
             {[
               { 
-                name: "John Doe", 
+                name: "Vansh Gupta", 
                 age: 45, 
                 ward: "ICU", 
                 time: "2 hours ago",
                 condition: "Critical",
-                doctor: "Dr. Smith"
+                doctor: "Dr. Suman"
               },
               { 
-                name: "Sarah Johnson", 
+                name: "Jayansh Sharma", 
                 age: 32, 
                 ward: "General", 
                 time: "4 hours ago",
@@ -77,7 +77,7 @@ export const DashboardView = () => {
                 doctor: "Dr. Patel"
               },
               { 
-                name: "Michael Brown", 
+                name: "Aarav Mehta", 
                 age: 58, 
                 ward: "Cardiac", 
                 time: "6 hours ago",
