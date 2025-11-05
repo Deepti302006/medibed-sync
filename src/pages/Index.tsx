@@ -6,7 +6,10 @@ import { MedicineView } from "@/components/medicine/MedicineView";
 import { BedsView } from "@/components/beds/BedsView";
 import { PatientsView } from "@/components/patients/PatientsView";
 import { StaffView } from "@/components/staff/StaffView";
-import { DollarSign, Video, FileText, Settings } from "lucide-react";
+import { BillingView } from "@/components/billing/BillingView";
+import { TelemedicineView } from "@/components/telemedicine/TelemedicineView";
+import { ReportsView } from "@/components/reports/ReportsView";
+import { SettingsView } from "@/components/settings/SettingsView";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -25,45 +28,13 @@ const Index = () => {
       case "staff":
         return <StaffView />;
       case "billing":
-        return (
-          <div className="text-center py-20 animate-fade-in">
-            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-              <DollarSign className="w-8 h-8 text-primary" />
-            </div>
-            <h2 className="text-2xl font-bold text-foreground mb-2">Billing & Insurance Module</h2>
-            <p className="text-muted-foreground">Advanced billing features coming soon...</p>
-          </div>
-        );
+        return <BillingView />;
       case "telemedicine":
-        return (
-          <div className="text-center py-20 animate-fade-in">
-            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-              <Video className="w-8 h-8 text-primary" />
-            </div>
-            <h2 className="text-2xl font-bold text-foreground mb-2">Telemedicine Platform</h2>
-            <p className="text-muted-foreground">Virtual consultation features coming soon...</p>
-          </div>
-        );
+        return <TelemedicineView />;
       case "reports":
-        return (
-          <div className="text-center py-20 animate-fade-in">
-            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-              <FileText className="w-8 h-8 text-primary" />
-            </div>
-            <h2 className="text-2xl font-bold text-foreground mb-2">Reports & Analytics</h2>
-            <p className="text-muted-foreground">Detailed reporting features coming soon...</p>
-          </div>
-        );
+        return <ReportsView />;
       case "settings":
-        return (
-          <div className="text-center py-20 animate-fade-in">
-            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-              <Settings className="w-8 h-8 text-primary" />
-            </div>
-            <h2 className="text-2xl font-bold text-foreground mb-2">System Settings</h2>
-            <p className="text-muted-foreground">Configuration options coming soon...</p>
-          </div>
-        );
+        return <SettingsView />;
       default:
         return <DashboardView />;
     }
