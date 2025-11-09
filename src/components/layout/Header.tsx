@@ -1,5 +1,4 @@
 import { Bell, Search, Settings, User, LogOut, Menu, Shield } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -14,11 +13,10 @@ import { Badge } from "@/components/ui/badge";
 
 interface HeaderProps {
   onMenuToggle?: () => void;
+  onAdminClick?: () => void;
 }
 
-export const Header = ({ onMenuToggle }: HeaderProps) => {
-  const navigate = useNavigate();
-  
+export const Header = ({ onMenuToggle, onAdminClick }: HeaderProps) => {
   return (
     <header className="h-16 border-b border-border bg-card sticky top-0 z-40 backdrop-blur-sm bg-card/95">
       <div className="h-full px-4 lg:px-6 flex items-center justify-between gap-4">
@@ -132,7 +130,7 @@ export const Header = ({ onMenuToggle }: HeaderProps) => {
                 Settings
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => navigate('/login')} className="text-primary">
+              <DropdownMenuItem onClick={onAdminClick} className="text-primary">
                 <Shield className="w-4 h-4 mr-2" />
                 Admin Login
               </DropdownMenuItem>
