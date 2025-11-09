@@ -1,3 +1,4 @@
+import React from "react";
 import { Home, Package, Bed, Users, Stethoscope, FileText, DollarSign, Video, Settings, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";

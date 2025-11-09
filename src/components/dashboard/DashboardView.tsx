@@ -1,3 +1,4 @@
+import React from "react";
 import { StatsCard } from "./StatsCard";
 import { ActivityChart } from "./ActivityChart";
 import { Users, Bed, Package, Activity, TrendingUp, Clock } from "lucide-react";
