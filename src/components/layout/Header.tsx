@@ -1,4 +1,5 @@
-import { Bell, Search, Settings, User, LogOut, Menu } from "lucide-react";
+import React from "react";
+import { Bell, Search, Settings, User, LogOut, Menu, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -13,9 +14,10 @@ import { Badge } from "@/components/ui/badge";
 
 interface HeaderProps {
   onMenuToggle?: () => void;
+  onAdminClick?: () => void;
 }
 
-export const Header = ({ onMenuToggle }: HeaderProps) => {
+export const Header = ({ onMenuToggle, onAdminClick }: HeaderProps) => {
   return (
     <header className="h-16 border-b border-border bg-card sticky top-0 z-40 backdrop-blur-sm bg-card/95">
       <div className="h-full px-4 lg:px-6 flex items-center justify-between gap-4">
@@ -129,6 +131,10 @@ export const Header = ({ onMenuToggle }: HeaderProps) => {
                 Settings
               </DropdownMenuItem>
               <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={onAdminClick} className="text-primary">
+                <Shield className="w-4 h-4 mr-2" />
+                Admin Login
+              </DropdownMenuItem>
               <DropdownMenuItem className="text-destructive">
                 <LogOut className="w-4 h-4 mr-2" />
                 Logout

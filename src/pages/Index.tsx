@@ -1,4 +1,5 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
 import { DashboardView } from "@/components/dashboard/DashboardView";
@@ -12,6 +13,7 @@ import { ReportsView } from "@/components/reports/ReportsView";
 import { SettingsView } from "@/components/settings/SettingsView";
 
 const Index = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -49,7 +51,10 @@ const Index = () => {
         onClose={() => setSidebarOpen(false)}
       />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
+        <Header 
+          onMenuToggle={() => setSidebarOpen(!sidebarOpen)}
+          onAdminClick={() => navigate('/login')}
+        />
         <main className="flex-1 overflow-y-auto">
           <div className="p-4 lg:p-8">
             {renderContent()}
