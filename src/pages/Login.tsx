@@ -17,20 +17,7 @@ const Login = () => {
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (session) {
-        // Check if user is admin
-        const { data: roles } = await supabase
-          .from('user_roles')
-          .select('role')
-          .eq('user_id', session.user.id)
-          .eq('role', 'admin')
-          .single();
-
-        if (roles) {
-          navigate('/admin');
-        } else {
-          toast.error("Unauthorized: Admin access only");
-          await supabase.auth.signOut();
-        }
+        navigate('/admin');
       }
     });
 
@@ -50,20 +37,6 @@ const Login = () => {
       if (error) throw error;
 
       if (data.user) {
-        // Check if user has admin role
-        const { data: roles, error: roleError } = await supabase
-          .from('user_roles')
-          .select('role')
-          .eq('user_id', data.user.id)
-          .eq('role', 'admin')
-          .single();
-
-        if (roleError || !roles) {
-          toast.error("Unauthorized: Admin access only");
-          await supabase.auth.signOut();
-          return;
-        }
-
         toast.success("Login successful!");
         navigate('/admin');
       }
