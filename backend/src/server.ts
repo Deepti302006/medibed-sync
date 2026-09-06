@@ -23,12 +23,16 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { createClient } from "@supabase/supabase-js";
+import patientRoutes from "./routes/patientRoutes";
+import staffRoutes from "./routes/staffRoutes";
 
 dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use("/api/patients", patientRoutes);
+app.use("/api/staff", staffRoutes);
 
 // Initialize Supabase
 const supabaseUrl = process.env.SUPABASE_URL as string;

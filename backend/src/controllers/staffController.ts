@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { supabase } from "../config/supabaseClient.js";
+import { supabase } from "../config/supabaseClient";
 
 export const getAllStaff = async (req: Request, res: Response): Promise<void> => {
   const { data, error } = await supabase.from("staff").select("*");
