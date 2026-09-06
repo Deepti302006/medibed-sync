@@ -1,4 +1,5 @@
 import { FormEvent, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,6 +18,7 @@ const wards = ["ICU", "General", "Cardiac", "Pediatric", "Maternity"];
 const statuses = ["Critical", "Stable", "Under Observation", "Recovering"];
 
 export const PatientsView = () => {
+  const navigate = useNavigate();
   const { toast } = useToast();
   const [patients, setPatients] = useState<Patient[]>([]);
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
@@ -26,6 +28,7 @@ export const PatientsView = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [isAddOpen, setIsAddOpen] = useState(false);
+  const [hasSession, setHasSession] = useState(false);
 
   const loadPatients = async () => {
     setIsLoading(true);
@@ -35,10 +38,39 @@ export const PatientsView = () => {
     setIsLoading(false);
   };
 
-  useEffect(() => { void loadPatients(); }, []);
+  useEffect(() => {
+    let mounted = true;
+    void supabase.auth.getSession().then(({ data }) => {
+      if (!mounted) return;
+      setHasSession(Boolean(data.session));
+      if (data.session) void loadPatients();
+      else setIsLoading(false);
+    });
+
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!mounted) return;
+      setHasSession(Boolean(session));
+      if (session) void loadPatients();
+      else {
+        setPatients([]);
+        setIsLoading(false);
+      }
+    });
+
+    return () => {
+      mounted = false;
+      authListener.subscription.unsubscribe();
+    };
+  }, []);
 
   const handleAddPatient = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!hasSession) {
+      setIsAddOpen(false);
+      toast({ title: "Sign in required", description: "Please sign in before adding patient records.", variant: "destructive" });
+      navigate("/login");
+      return;
+    }
     setIsSaving(true);
     const formData = new FormData(event.currentTarget);
     const patient: PatientInsert = {
@@ -77,7 +109,9 @@ export const PatientsView = () => {
       <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <div><h2 className="mb-2 text-3xl font-bold text-foreground">Patient Management</h2><p className="text-muted-foreground">Manage patient records and medical history</p></div>
         <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
-          <Button className="bg-gradient-primary shadow-medical" onClick={() => setIsAddOpen(true)}><Plus className="mr-2 h-4 w-4" />Add New Patient</Button>
+          <Button className="bg-gradient-primary shadow-medical" onClick={() => hasSession ? setIsAddOpen(true) : navigate("/login")}>
+            <Plus className="mr-2 h-4 w-4" />{hasSession ? "Add New Patient" : "Sign In to Manage Patients"}
+          </Button>
           <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
             <DialogHeader><DialogTitle>Add New Patient</DialogTitle><DialogDescription>Save a patient record to the hospital database.</DialogDescription></DialogHeader>
             <form onSubmit={handleAddPatient} className="grid gap-4 pt-4 sm:grid-cols-2">
