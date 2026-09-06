@@ -27,21 +27,6 @@ const Admin = () => {
 
       setUserEmail(session.user.email || "");
 
-      // Verify admin role
-      const { data: roles, error } = await supabase
-        .from('user_roles')
-        .select('role')
-        .eq('user_id', session.user.id)
-        .eq('role', 'admin')
-        .single();
-
-      if (error || !roles) {
-        toast.error("Unauthorized access");
-        await supabase.auth.signOut();
-        navigate('/login');
-        return;
-      }
-
       setLoading(false);
     } catch (error) {
       toast.error("Authentication error");
