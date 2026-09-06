@@ -22,7 +22,6 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { createClient } from "@supabase/supabase-js";
 import patientRoutes from "./routes/patientRoutes";
 import staffRoutes from "./routes/staffRoutes";
 
@@ -33,11 +32,6 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/patients", patientRoutes);
 app.use("/api/staff", staffRoutes);
-
-// Initialize Supabase
-const supabaseUrl = process.env.SUPABASE_URL as string;
-const supabaseKey = process.env.SUPABASE_KEY as string;
-export const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Example route
 app.get("/", (req: Request, res: Response) => {
